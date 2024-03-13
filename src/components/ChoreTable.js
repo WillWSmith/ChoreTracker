@@ -16,138 +16,105 @@ const monthlyChores = [
 ];
 
 function ChoreTable() {
-  const [completedDailyChores, setCompletedDailyChores] = useState({});
-  const [completedWeeklyChores, setCompletedWeeklyChores] = useState({});
-  const [completedMonthlyChores, setCompletedMonthlyChores] = useState({});
 
-  const handleDailyChoreClick = (day, chore) => {
-    setCompletedDailyChores(prevState => ({
-      ...prevState,
-      [day]: {
-        ...prevState[day],
-        [chore]: prevState[day]?.[chore] === 'Will' ? 'Kristyn' : (prevState[day]?.[chore] === 'Kristyn' ? null : 'Will'),
-      },
+  const [lastWeeksScores, setLastWeeksScores] = useState({ Will: 0, Kristyn: 0 });
+  const [allTimeHighScores, setAllTimeHighScores] = useState({ Will: 0, Kristyn: 0 });
+
+  const calculateScores = () => {
+    let willScore = 0;
+    let kristynScore = 0;
+
+    // Calculate scores for daily chores
+    daysOfWeek.forEach(day => {
+      Object.values(completedDailyChores[day] || {}).forEach(chore => {
+        if (chore === 'Will') willScore++;
+        if (chore === 'Kristyn') kristynScore++;
+      });
+    });
+
+    // Calculate scores for weekly chores
+    weeklyChores.forEach(chore => {
+      if (completedWeeklyChores[chore] === 'Will') willScore += 2;
+      if (completedWeeklyChores[chore] === 'Kristyn') kristynScore += 2;
+    });
+
+    // Calculate scores for monthly chores completed in the last week
+    const lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    monthlyChores.forEach(chore => {
+      if (completedMonthlyChores[chore]?.completedBy && new Date(completedMonthlyChores[chore].completedDate) > lastWeek) {
+        if (completedMonthlyChores[chore].completedBy === 'Will') willScore += 3;
+        if (completedMonthlyChores[chore].completedBy === 'Kristyn') kristynScore += 3;
+      }
+    });
+
+    // Update last week's scores
+    setLastWeeksScores({ Will: willScore, Kristyn: kristynScore });
+
+    // Update all-time high scores
+    setAllTimeHighScores(prevScores => ({
+      Will: Math.max(willScore, prevScores.Will),
+      Kristyn: Math.max(kristynScore, prevScores.Kristyn)
     }));
   };
-
-  const handleWeeklyChoreClick = (chore) => {
-    setCompletedWeeklyChores(prevState => ({
-      ...prevState,
-      [chore]: prevState[chore] === 'Will' ? 'Kristyn' : (prevState[chore] === 'Kristyn' ? null : 'Will'),
-    }));
-  };
-
-const handleMonthlyChoreClick = (chore) => {
-  const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  setCompletedMonthlyChores(prevState => {
-    const prevCompletedBy = prevState[chore]?.completedBy;
-    const completedBy = prevCompletedBy === 'Will' ? 'Kristyn' : (prevCompletedBy === 'Kristyn' ? null : 'Will');
-    const completedDate = completedBy ? currentDate : prevState[chore]?.completedDate;
-    return {
-      ...prevState,
-      [chore]: {
-        completedBy,
-        completedDate,
-      },
-    };
-  });
-};
 
   return (
     <div>
+      {console.log("Return being rendered.")}
       <h2>Daily Chores</h2>
+      {/* Table for daily chores */}
       <table>
         <thead>
           <tr>
-            <th>Chore</th>
+            <th></th>
+            {/* Table headers for each day of the week */}
             {daysOfWeek.map(day => (
               <th key={day}>{day}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {['Dishes', 'Sweep', 'Garbage', 'Laundry', 'Feed Cats'].map(chore => (
-            <tr key={chore}>
-              <td>{chore}</td>
-              {daysOfWeek.map(day => (
-                <td
-                  key={`${day}-${chore}`}
-                  onClick={() => handleDailyChoreClick(day, chore)}
-                  style={{
-                    backgroundColor: completedDailyChores[day]?.[chore] === 'Will' ? 'green' : (completedDailyChores[day]?.[chore] === 'Kristyn' ? 'pink' : 'white'),
-                    cursor: 'pointer',
-                    color: 'black',
-                    textAlign: 'center',
-                  }}
-                >
-                  {completedDailyChores[day]?.[chore] === 'Will' && 'W'}
-                  {completedDailyChores[day]?.[chore] === 'Kristyn' && 'K'}
-                </td>
-              ))}
-            </tr>
-          ))}
+          {/* Rows for each daily chore */}
+          {/* Each row contains cells for each day of the week */}
         </tbody>
       </table>
 
       <h2>Weekly Chores</h2>
+      {/* Table for weekly chores */}
       <table>
         <thead>
           <tr>
-            <th>Chore</th>
+            <th></th>
             <th>Completed</th>
           </tr>
         </thead>
         <tbody>
-          {weeklyChores.map(chore => (
-            <tr key={chore}>
-              <td>{chore}</td>
-              <td
-                onClick={() => handleWeeklyChoreClick(chore)}
-                style={{
-                  backgroundColor: completedWeeklyChores[chore] === 'Will' ? 'green' : (completedWeeklyChores[chore] === 'Kristyn' ? 'pink' : 'white'),
-                  cursor: 'pointer',
-                  color: 'black',
-                  textAlign: 'center',
-                }}
-              >
-                {completedWeeklyChores[chore] === 'Will' && 'W'}
-                {completedWeeklyChores[chore] === 'Kristyn' && 'K'}
-              </td>
-            </tr>
-          ))}
+          {/* Rows for each weekly chore */}
+          {/* Each row contains a cell to display completion status */}
         </tbody>
       </table>
 
       <h2>Monthly Chores</h2>
+      {/* Table for monthly chores */}
       <table>
         <thead>
           <tr>
-            <th>Chore</th>
+            <th></th>
             <th>Completed By</th>
             <th>Completed Date</th>
           </tr>
         </thead>
         <tbody>
-          {monthlyChores.map(chore => (
-            <tr key={chore}>
-              <td>{chore}</td>
-              <td
-                onClick={() => handleMonthlyChoreClick(chore)}
-                style={{
-                  backgroundColor: completedMonthlyChores[chore]?.completedBy === 'Will' ? 'green' : (completedMonthlyChores[chore]?.completedBy === 'Kristyn' ? 'pink' : 'white'),
-                  cursor: 'pointer',
-                  color: 'black',
-                  textAlign: 'center',
-                }}
-              >
-                {completedMonthlyChores[chore]?.completedBy === 'Will' && 'W'}
-                {completedMonthlyChores[chore]?.completedBy === 'Kristyn' && 'K'}
-              </td>
-              <td>{completedMonthlyChores[chore]?.completedDate}</td>
-            </tr>
-          ))}
+          {/* Rows for each monthly chore */}
+          {/* Each row contains cells for completion status and date */}
         </tbody>
       </table>
+
+      <button onClick={calculateScores}>New Week</button>
+      {/* Display last week's scores */}
+      <p>Last Week's Score: Will - {lastWeeksScores.Will}, Kristyn - {lastWeeksScores.Kristyn}</p>
+      {/* Display all-time high scores */}
+      <p>All-time HiScore: Will - {allTimeHighScores.Will}, Kristyn - {allTimeHighScores.Kristyn}</p>
     </div>
   );
 }
