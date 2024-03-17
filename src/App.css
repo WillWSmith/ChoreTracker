@@ -216,7 +216,7 @@ input::placeholder, textarea::placeholder {
   .App-header {
     flex-direction: column; /* Stack elements vertically */
     padding: 10px;
-    font-size: 1.8rem; /* Slightly reduce the font size */
+    font-size: 0.8rem; /* Slightly reduce the font size */
   }
 
   .scoreboard {
