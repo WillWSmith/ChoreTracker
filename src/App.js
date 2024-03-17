@@ -22,7 +22,7 @@ function App() {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   
-    // Reset daily chores
+    // Reset daily chores and calculate scores
     const dailyChoresQuery = collection(db, 'dailyChores');
     const dailyChoresSnapshot = await getDocs(dailyChoresQuery);
     dailyChoresSnapshot.forEach((doc) => {
@@ -44,7 +44,7 @@ function App() {
       });
     });
   
-    // Reset weekly chores
+    // Reset weekly chores and calculate scores
     const weeklyChoresQuery = collection(db, 'weeklyChores');
     const weeklyChoresSnapshot = await getDocs(weeklyChoresQuery);
     weeklyChoresSnapshot.forEach((doc) => {
@@ -73,28 +73,17 @@ function App() {
     const willUserDoc = await getDoc(willUserRef);
     const kristynUserDoc = await getDoc(kristynUserRef);
   
-    // Assume the document structure contains fields lastWeekScores and allTimeHighScores
-    const willCurrentHighScore = willUserDoc.exists() ? willUserDoc.data().allTimeHighScores : 0;
-    const kristynCurrentHighScore = kristynUserDoc.exists() ? kristynUserDoc.data().allTimeHighScores : 0;
+    // Get current last week scores
+    const willLastWeekScores = willUserDoc.exists() ? willUserDoc.data().lastWeekScores || 0 : 0;
+    const kristynLastWeekScores = kristynUserDoc.exists() ? kristynUserDoc.data().lastWeekScores || 0 : 0;
   
-    // Compare and potentially update All-Time High Scores
-    const newWillHighScore = Math.max(willScore, willCurrentHighScore);
-    const newKristynHighScore = Math.max(kristynScore, kristynCurrentHighScore);
+    // Update last week's scores
+    const newWillLastWeekScores = willLastWeekScores + willScore;
+    const newKristynLastWeekScores = kristynLastWeekScores + kristynScore;
   
-    // Update last week's scores and All-Time High Scores if last week's scores are higher
-    if (willScore > willCurrentHighScore) {
-      batch.update(willUserRef, {
-        lastWeekScores: willScore,
-        allTimeHighScores: newWillHighScore
-      });
-    }
-  
-    if (kristynScore > kristynCurrentHighScore) {
-      batch.update(kristynUserRef, {
-        lastWeekScores: kristynScore,
-        allTimeHighScores: newKristynHighScore
-      });
-    }
+    // Update last week scores in the database
+    batch.update(willUserRef, { lastWeekScores: newWillLastWeekScores });
+    batch.update(kristynUserRef, { lastWeekScores: newKristynLastWeekScores });
   
     // Commit the batch
     await batch.commit();
