@@ -14,7 +14,6 @@ const WeeklyChores = () => {
         setChores(choresData);
       } catch (error) {
         console.error("Error fetching data: ", error);
-        // Handle the error appropriately in your UI
       }
     };
 
@@ -54,7 +53,6 @@ const WeeklyChores = () => {
       });
     } catch (error) {
       console.error("Error updating document: ", error);
-      // Handle the error appropriately in your UI
     }
   };
 
@@ -70,7 +68,7 @@ const WeeklyChores = () => {
         </thead>
         <tbody>
           {chores.map(chore => {
-            let cellClass = 'chore-cell'; // Default cell class
+            let cellClass = 'chore-cell';
             if (chore.completedBy === 'Will') {
               cellClass += ' chore-cell-will';
             } else if (chore.completedBy === 'Kristyn') {

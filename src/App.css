@@ -1,8 +1,8 @@
 :root {
-  --background-color: #333; /* A dark color for the carbon fiber */
-  --accent-color: #A0D468; /* Lime green color for accents */
-  --text-color: #FFF; /* White text for contrast */
-  --secondary-text-color: #AAA; /* Lighter text for less emphasis */
+  --background-color: #333;
+  --accent-color: #A0D468;
+  --text-color: #FFF;
+  --secondary-text-color: #AAA;
   --header-font: 'Orbitron', sans-serif;
   --body-font: 'Roboto', sans-serif;
 }
@@ -25,10 +25,10 @@ body {
   justify-content: center;
   align-items: center;
   font-family: var(--header-font);
-  background-color: rgba(0, 0, 0, 0.4); /* For a dark translucent header background */
-  color: var(--accent-color); /* Lime green accent text */
+  background-color: rgba(0, 0, 0, 0.4);
+  color: var(--accent-color);
   padding: 20px;
-  font-size: 2.5rem; /* Adjust the size as needed */
+  font-size: 2.5rem;
   letter-spacing: 1px;
   border-bottom: 4px solid var(--accent-color);
   height: 60px;
@@ -38,8 +38,8 @@ body {
 .DailyChores, .WeeklyChores, .MonthlyChores {
   margin: 20px;
   padding: 20px;
-  border: 1px solid #555; /* A lighter border for visibility */
-  border-radius: 8px; /* Slightly rounded corners for a modern look */
+  border: 1px solid #555;
+  border-radius: 8px;
 }
 
 table {
@@ -60,7 +60,7 @@ th {
 }
 
 td {
-  background-color: #222; /* Slightly lighter than the body for contrast */
+  background-color: #222;
   color: var(--secondary-text-color);
 }
 
@@ -76,7 +76,7 @@ button {
 }
 
 button:hover {
-  background-color: #8CC152; /* Slightly darker lime green for hover state */
+  background-color: #8CC152;
 }
 
 .NewWeekButton {
@@ -88,12 +88,12 @@ button:hover {
   border-radius: 4px;
   font-size: 1em;
   transition: background-color 0.3s;
-  margin: 20px auto; /* Center the button */
-  display: block; /* Ensure the button is block-level for margin auto to work */
+  margin: 20px auto;
+  display: block;
 }
 
 .NewWeekButton:hover {
-  background-color: #8CC152; /* Slightly darker lime green for hover state */
+  background-color: #8CC152;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -102,12 +102,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0.5em 0;
 }
 
-p, li, a, span { /* All common text elements */
+p, li, a, span { 
   color: var(--text-color);
 }
 
 button:active {
-  background-color: #7ca839; /* Even darker lime green for active state */
+  background-color: #7ca839;
 }
 
 input, select, textarea {
@@ -126,7 +126,7 @@ input::placeholder, textarea::placeholder {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Creates consistent space between child elements */
+  gap: 20px;
 }
 
 .fade-in {
@@ -138,9 +138,8 @@ input::placeholder, textarea::placeholder {
   to { opacity: 1; }
 }
 
-/* Additional CSS to add to your existing styles */
 .chore-cell {
-  cursor: pointer; /* Indicates the cell is clickable */
+  cursor: pointer;
 }
 
 .chore-cell {
@@ -148,18 +147,18 @@ input::placeholder, textarea::placeholder {
 }
 
 .chore-cell-will {
-  background-color: green; /* Background color for Will's tasks */
+  background-color: green;
 }
 
 /* Styling for Kristyn's cells */
 .chore-cell-kristyn {
-  background-color: pink; /* Background color for Kristyn's tasks */
+  background-color: pink;
 }
 
 .cell-initial {
   display: flex;
-  justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  justify-content: center;
+  align-items: center;
   height: 100%;
   width: 100%;
   font-weight: bold;
@@ -168,70 +167,70 @@ input::placeholder, textarea::placeholder {
 /* ScoreBoard Style */
 
 .scoreboard {
-  background-color: #222; /* Dark background for contrast */
-  color: var(--accent-color); /* Lime green for text */
-  border-radius: 8px; /* Rounded corners */
+  background-color: #222;
+  color: var(--accent-color);
+  border-radius: 8px;
   padding: 20px;
-  margin: 20px auto; /* Center the scoreboard */
-  max-width: 600px; /* Adjust based on your preference */
+  margin: 20px auto;
+  max-width: 600px;
   display: flex;
-  flex-direction: row; /* Stack scores vertically */
-  align-items: center; /* Center align the items */
+  flex-direction: row;
+  align-items: center;
 }
 
 .scoreboard h2 {
-  font-size: 1.5rem; /* Adjust based on your preference */
-  margin: 0 0 20px 0; /* Spacing below the title */
-  color: var(--text-color); /* White color for the title */
-  width: 100%; /* Ensure the title spans the full width */
+  font-size: 1.5rem;
+  margin: 0 0 20px 0;
+  color: var(--text-color);
+  width: 100%;
 }
 
 .scoreboard .score {
   text-align: center;
-  width: 100%; /* Ensure score sections span the full width of the scoreboard */
+  width: 100%;
 }
 
 .scoreboard .score h3 {
-  font-size: 1.2rem; /* Adjust based on your preference */
-  color: var(--text-color); /* White color for names */
-  margin: 0 0 5px 0; /* Adjusted bottom margin for spacing between name and score */
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin: 0 0 5px 0;
 }
 
 .scoreboard .score .score-value {
-  font-size: 2.5rem; /* Large, easy-to-read numbers */
-  font-family: var(--header-font); /* Digital look */
-  color: var(--accent-color); /* Lime green for numbers */
-  margin: 0; /* No additional margin needed */
+  font-size: 2.5rem;
+  font-family: var(--header-font);
+  color: var(--accent-color);
+  margin: 0;
 }
 
 .scoreboard .score .score-indicator {
-  font-size: 1rem; /* Smaller font size for indicators */
-  color: var(--secondary-text-color); /* Lighter text color for descriptors */
-  margin: 10px 0; /* Space below the indicator before the next score */
+  font-size: 1rem;
+  color: var(--secondary-text-color);
+  margin: 10px 0;
 }
 
 /* Media Query for Mobile Devices */
 
 @media (max-width: 768px) {
   .App-header {
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
     padding: 10px;
-    font-size: 0.8rem; /* Slightly reduce the font size */
+    font-size: 0.8rem;
   }
 
   .scoreboard {
-    flex-direction: column; /* Stack scores vertically on small screens */
+    flex-direction: column;
     padding: 15px;
     margin: 10px;
   }
 
   .scoreboard .score {
-    margin-bottom: 20px; /* Add space between scores */
+    margin-bottom: 20px;
   }
 
   .scoreboard .score .score-value,
   .scoreboard .score .score-indicator {
-    font-size: 2rem; /* Adjust font size for readability */
+    font-size: 2rem;
   }
 
   .DailyChores, .WeeklyChores, .MonthlyChores, .HiScores {
@@ -240,21 +239,19 @@ input::placeholder, textarea::placeholder {
   }
 
   button, .NewWeekButton {
-    padding: 12px 18px; /* Adjust button size for easier tapping */
-    font-size: 0.9em; /* Adjust font size if necessary */
+    padding: 12px 18px;
+    font-size: 0.9em;
   }
 
-  /* Adjust table layout for better visibility on smaller screens */
   table {
-    font-size: 0.9em; /* Reduce font size for table content */
+    font-size: 0.9em;
   }
 
   th, td {
-    padding: 8px; /* Adjust padding to save space */
+    padding: 8px;
   }
 
-  /* If your tables are too wide, consider scrolling within the table container */
   .DailyChores, .WeeklyChores, .MonthlyChores {
-    overflow-x: auto; /* Allows horizontal scrolling within these containers */
+    overflow-x: auto;
   }
 }

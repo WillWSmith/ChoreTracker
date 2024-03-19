@@ -13,7 +13,6 @@ const MonthlyChores = () => {
       const choresData = querySnapshot.docs.map(doc => ({
         ...doc.data(),
         id: doc.id,
-        // Ensure completedDate is either kept as a Firestore Timestamp or converted to a Date object
         completedDate: doc.data().completedDate ? new Date(doc.data().completedDate.toDate()) : null
       }));
       setChores(choresData);
@@ -31,27 +30,21 @@ const MonthlyChores = () => {
     switch (currentStatus) {
       case 'null':
         nextStatus = 'Will';
-        // Set completedBy to 'Will' and completionDate to now, as a Firestore Timestamp
         updateData = {
           completedBy: nextStatus,
-          completedDate: Timestamp.fromDate(new Date()), // Convert JavaScript Date to Firestore Timestamp
+          completedDate: Timestamp.fromDate(new Date()),
         };
         break;
       case 'Will':
         nextStatus = 'Kristyn';
-        // Set completedBy to 'Kristyn' without touching completedDate
         updateData = {
           completedBy: nextStatus,
-          // completedDate remains unchanged, so we don't include it in updateData
         };
         break;
       case 'Kristyn':
         nextStatus = 'null';
-        // Set completedBy to 'null' without clearing the completedDate
         updateData = {
           completedBy: nextStatus,
-          // Optionally clear completedDate here if that's desired behavior
-          // If keeping the date, just don't include it in updateData
         };
         break;
       default:
@@ -75,15 +68,11 @@ const MonthlyChores = () => {
   };
 
   const formatDate = (date) => {
-    // Check if it's a Firestore Timestamp by checking for toDate method
     if (date && typeof date.toDate === 'function') {
-      // It's a Firestore Timestamp, convert to JavaScript Date object
       return date.toDate().toLocaleDateString();
     } else if (date instanceof Date) {
-      // It's already a JavaScript Date object
       return date.toLocaleDateString();
     }
-    // Not a date we can format
     return '';
   };
   
@@ -113,7 +102,6 @@ const MonthlyChores = () => {
                 </span>
               </td>
               <td>
-                {/* Use the helper function to format date */}
                 {chore.completedBy ? formatDate(chore.completedDate) : ''}
               </td>
             </tr>

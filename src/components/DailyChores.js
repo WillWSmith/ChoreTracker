@@ -7,7 +7,6 @@ const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sat
 const DailyChores = () => {
   const [chores, setChores] = useState([]);
 
-  // Define fetchData outside of useEffect so it can be reused
   const fetchData = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, 'dailyChores'));
@@ -27,7 +26,7 @@ const DailyChores = () => {
 
   const updateChoreStatus = async (choreId, day) => {
     const chore = chores.find(c => c.id === choreId);
-    const currentStatus = chore.days[day]?.completedBy; // Use the value from the database
+    const currentStatus = chore.days[day]?.completedBy;
     let nextStatus;
   
     switch (currentStatus) {
@@ -55,7 +54,6 @@ const DailyChores = () => {
       await fetchData();
     } catch (error) {
       console.error("Error updating document: ", error);
-      // Handle the error appropriately in your UI
     }
   };
 
@@ -77,7 +75,7 @@ const DailyChores = () => {
               <td>{chore.name}</td>
               {daysOfWeek.map(day => {
   const completedBy = chore.days[day]?.completedBy;
-  let cellClass = 'chore-cell'; // Default cell class for all cells
+  let cellClass = 'chore-cell';
   if (completedBy === 'Will') {
     cellClass += ' chore-cell-will';
   } else if (completedBy === 'Kristyn') {
