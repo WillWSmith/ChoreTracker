@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.button:hover {
+  background-color: #45a049; /* Darker Green */
+}
+
+.button:active {
+  background-color: #3e8e41;
+}
+
+.weekly-chore-container {
+  display: flex;
+  justify-content: center;
+}
+
+.weekly-chore-container table {
+  margin: 0 auto;
+}
