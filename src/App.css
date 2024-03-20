@@ -46,7 +46,7 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 20px 2px 4px 2px;
   cursor: pointer;
   border-radius: 8px;
 }
@@ -66,4 +66,47 @@
 
 .weekly-chore-container table {
   margin: 0 auto;
+}
+
+.high-scores {
+  background-color: #e6dfdf;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 20px; /* Add margin at the top */
+  padding-bottom: 20px; /* Add padding at the bottom */
+  margin-bottom: 40px;
+}
+
+.high-scores h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.high-scores p {
+  font-size: 18px;
+  color: #666;
+}
+
+.high-scores .score-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.high-scores .score {
+  flex: 1;
+  padding: 10px;
+}
+
+.high-scores .score h4 {
+  font-size: 20px;
+  color: #555;
+}
+
+.high-scores .score p {
+  font-size: 18px;
+  color: #777;
 }

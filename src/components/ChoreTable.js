@@ -43,7 +43,8 @@ function ChoreTable() {
     setCompletedMonthlyChores(prevState => {
       const prevChore = prevState[chore] || {};
       const completedBy = prevChore.completedBy === 'Will' ? 'Kristyn' : (prevChore.completedBy === 'Kristyn' ? null : 'Will');
-      const completedDate = completedBy ? prevChore.completedDate || new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : null;
+      const currentDate = new Date();
+      const completedDate = completedBy ? currentDate.toISOString().split('T')[0] : null;
   
       return {
         ...prevState,
@@ -54,6 +55,7 @@ function ChoreTable() {
       };
     });
   };
+  
 
   const calculateScores = () => {
     let willScore = 0;
@@ -76,8 +78,13 @@ function ChoreTable() {
     // Calculate scores for monthly chores completed in the last week
     const lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
+    console.log("Last Week:", lastWeek.toLocaleDateString());
     monthlyChores.forEach(chore => {
-      if (completedMonthlyChores[chore]?.completedBy && new Date(completedMonthlyChores[chore].completedDate) > lastWeek) {
+      const completedDate = new Date(completedMonthlyChores[chore]?.completedDate);
+      console.log("Completed Date:", completedDate); // Log the completed date for debugging
+      console.log("Last Week:", lastWeek); // Log the last week date for debugging
+    
+      if (completedMonthlyChores[chore]?.completedBy && completedDate > lastWeek) {
         if (completedMonthlyChores[chore].completedBy === 'Will') willScore += 3;
         if (completedMonthlyChores[chore].completedBy === 'Kristyn') kristynScore += 3;
       }
@@ -91,6 +98,9 @@ function ChoreTable() {
       Will: Math.max(willScore, prevScores.Will),
       Kristyn: Math.max(kristynScore, prevScores.Kristyn)
     }));
+
+    setCompletedDailyChores({});
+    setCompletedWeeklyChores({});
   };
   
 
@@ -227,9 +237,31 @@ function ChoreTable() {
 
       <button className="button" onClick={calculateScores}>New Week</button>
       {/* Display last week's scores */}
-      <p>Last Week's Score: Will - {lastWeeksScores.Will}, Kristyn - {lastWeeksScores.Kristyn}</p>
-      {/* Display all-time high scores */}
-      <p>All-time HiScore: Will - {allTimeHighScores.Will}, Kristyn - {allTimeHighScores.Kristyn}</p>
+      <div className="high-scores">
+  <h3>Last Week's Scores</h3>
+  <div className="score-container">
+    <div className="score">
+      <h4>Will</h4>
+      <p>{lastWeeksScores.Will}</p>
+    </div>
+    <div className="score">
+      <h4>Kristyn</h4>
+      <p>{lastWeeksScores.Kristyn}</p>
+    </div>
+  </div>
+  <h3>All-time HiScores</h3>
+  <div className="score-container">
+    <div className="score">
+      <h4>Will</h4>
+      <p>{allTimeHighScores.Will}</p>
+    </div>
+    <div className="score">
+      <h4>Kristyn</h4>
+      <p>{allTimeHighScores.Kristyn}</p>
+    </div>
+  </div>
+</div>
+
     </div>
   );
 }
