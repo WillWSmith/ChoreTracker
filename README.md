@@ -1,70 +1,118 @@
-# Getting Started with Create React App
+# ChoreTracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ChoreTracker is a web application designed to help users efficiently manage and track their daily, weekly, and monthly chores. Built with React and Firebase, it offers a seamless experience for setting up chores and monitoring progress. With an added twist of scoring!
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Task Management**: Easily add, update, and delete chores or users via the database.
+- **Responsive Design**: Fully responsive layout for desktop and mobile devices.
+- **Light/Dark Mode**: User-friendly interface with theme toggling.
+- **Up-to-Date Data on Load**: Utilizes Firebase's robust cloud infrastructure to ensure the latest data is presented each time the page is loaded, offering a seamless and updated view of information reflective of any changes made by users.
 
-### `npm start`
+## Demo
+[Click here to try out the demo version.]()
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js
+- npm
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:\
+```git clone https://github.com/WillWSmith/ChoreTracker.git```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Navigate to the project directory:\
+```cd ChoreTracker```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Install dependencies:\
+```npm install```
 
-### `npm run eject`
+4. Setup Database:\
+To set up your Firestore Database using the exported db files found in the /misc/ folder of this project:\
+ - Navigate to the [Firebase Console](https://console.firebase.google.com/), select your project, and go to the Firestore Database section.
+- Follow the Firebase documentation for importing data to Firestore. Since Google's setup instructions may change over time, refer to the [official Firebase documentation](https://firebase.google.com/docs/firestore) for the most current methods.
+- Reminder: There are multiple ways to import data into Firestore. If the provided method changes, please consult the Firebase documentation or other current resources for guidance.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+If you are still experiencing issues setting up the database I have included the structure of the database [below](#firestore-database-structure)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Create and setup .env file in the root of your directory. Format:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+REACT_APP_FIREBASE_API_KEY=[api-key]
+REACT_APP_FIREBASE_AUTH_DOMAIN=[auth-domain]
+REACT_APP_FIREBASE_PROJECT_ID=[project-id]
+REACT_APP_FIREBASE_STORAGE_BUCKET=[storage-bucket]
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=[messaging-sender-id]
+REACT_APP_FIREBASE_APP_ID=[app-id]
+REACT_APP_FIREBASE_MEASUREMENT_ID=[measurement-id]
+```
+*Replace [] with values from your Firebase Project Settings*
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+6. Start the development server:\
+```npm run start```
 
-## Learn More
+## Firestore Database Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To set up your Firestore Database, you will need to create the following collections and documents with the specified fields.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+*Only do this if the export docs above did not work for you or if you prefer manual setup*
 
-### Code Splitting
+### Collections and Documents
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### `dailyChores`
+Each document represents a chore to be done daily.
+- DocumentID: `choreID1`, `choreID2`, ... (unique identifiers for each chore can be auto generated)
+- Fields:
+  - `name`: string - name of chore
+  - `days`: map (each key is a day of the week with a map value)
+    - `Monday`: 
+      - `completedBy`: string - null
+    - `Tuesday`: 
+      - `completedBy`: string - null
+    ... (repeat for all days of the week)
 
-### Analyzing the Bundle Size
+- *We use null as the default value. This will change when the chore is marked Completed by someone.*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### `weeklyChores`
+Each document represents a chore to be done weekly.
+- DocumentID: `choreID0`, `choreID1`, ... (unique identifiers for each chore can be auto generated)
+- Fields:
+  - `name`: string - name of the chore
+  - `completedBy`: string - null
 
-### Making a Progressive Web App
+ - *We use null as the default value. This will change when the chore is marked Completed by someone.* 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### `monthlyChores`
+Each document represents a chore to be done monthly.
+- DocumentID: `choreID1`, `choreID2`, ... (unique identifiers for each chore can be auto generated)
+- Fields:
+  - `name`: string - name of the chore
+  - `completedBy`: string - null
+  - `completedDate`: timestamp (Put any date. Will be updated upon being marked as completed)
 
-### Advanced Configuration
+#### `userScores`
+Each document represents the scores for a user.
+- DocumentID: `Kevin`, `Kristyn`, `Will`, ... (user names as identifiers)\
+ *Note These Identifiers Cannot Be Auto Generated Like The Rest*
+- Fields:
+  - `allTimeHighScores`: number - 0 (default)
+  - `lastWeekScores`: number - 0 (default)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Important Reminder:** Firestore's interface and functionality may change, so if these instructions do not match the latest Firestore console, please refer to the [official Firestore documentation](https://firebase.google.com/docs/firestore) for updated procedures.
 
-### Deployment
+For other database setup options and detailed instructions, consider exploring community tutorials and resources that are kept up-to-date with the latest Firebase updates.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+## Built With
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [React](https://reactjs.org/) - The web framework used
+- [Firebase](https://firebase.google.com/) - Database and Authentication
+
+## Authors
+
+- **Will Smith** - *Initial work* - [WillWSmith](https://github.com/WillWSmith)
