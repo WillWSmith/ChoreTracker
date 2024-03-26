@@ -32,87 +32,66 @@ function App() {
   };
 
   const calculateAndResetScores = async () => {
-    let willScore = 0;
-    let kristynScore = 0;
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   
-    // Reset daily chores and calculate scores
-    const dailyChoresQuery = collection(db, 'dailyChores');
-    const dailyChoresSnapshot = await getDocs(dailyChoresQuery);
-    dailyChoresSnapshot.forEach((doc) => {
-      updateDoc(doc.ref, {
-        days: {
-          Monday: { completedBy: 'null' },
-          Tuesday: { completedBy: 'null' },
-          Wednesday: { completedBy: 'null' },
-          Thursday: { completedBy: 'null' },
-          Friday: { completedBy: 'null' },
-          Saturday: { completedBy: 'null' },
-          Sunday: { completedBy: 'null' }
-        }
-      });
-      // Increment scores based on completion
-      Object.values(doc.data().days).forEach(day => {
-        if (day.completedBy === 'Will') willScore += 1;
-        if (day.completedBy === 'Kristyn') kristynScore += 1;
-      });
-    });
+    let scores = users.reduce((acc, user) => {
+      acc[user] = 0; // Initialize score for each user
+      return acc;
+    }, {});
   
-    // Reset weekly chores and calculate scores
-    const weeklyChoresQuery = collection(db, 'weeklyChores');
-    const weeklyChoresSnapshot = await getDocs(weeklyChoresQuery);
-    weeklyChoresSnapshot.forEach((doc) => {
-      updateDoc(doc.ref, { completedBy: 'null' });
-      // Increment scores based on completion
-      if (doc.data().completedBy === 'Will') willScore += 2;
-      if (doc.data().completedBy === 'Kristyn') kristynScore += 2;
-    });
-  
-    // Calculate scores for monthly chores completed within the last week
-    const monthlyChoresQuery = query(collection(db, 'monthlyChores'), where('completedDate', '>=', oneWeekAgo));
-    const monthlyChoresSnapshot = await getDocs(monthlyChoresQuery);
-    monthlyChoresSnapshot.forEach((doc) => {
-      // Increment scores based on completion
-      if (doc.data().completedBy === 'Will') willScore += 3;
-      if (doc.data().completedBy === 'Kristyn') kristynScore += 3;
-    });
-  
-    // Update user scores in the database
     const batch = writeBatch(db);
   
-    const willUserRef = doc(db, 'userScores', 'Will');
-    const kristynUserRef = doc(db, 'userScores', 'Kristyn');
-  
-    // Update last week's scores directly without adding to the previous scores
-    const newWillLastWeekScores = willScore;
-    const newKristynLastWeekScores = kristynScore;
-
-    // Fetch current scores from the database to get the allTimeHighScores
-    const willUserDoc = await getDoc(willUserRef);
-    const kristynUserDoc = await getDoc(kristynUserRef);
-
-    // Update last week scores in the database
-    batch.update(willUserRef, { lastWeekScores: newWillLastWeekScores });
-    batch.update(kristynUserRef, { lastWeekScores: newKristynLastWeekScores });
-    
-    // Compare with high scores and update if necessary
-    const willHighScore = willUserDoc.exists() ? willUserDoc.data().allTimeHighScores || 0 : 0;
-    const kristynHighScore = kristynUserDoc.exists() ? kristynUserDoc.data().allTimeHighScores || 0 : 0;
-
-    if (newWillLastWeekScores > willHighScore) {
-      batch.update(willUserRef, { allTimeHighScores: newWillLastWeekScores });
+    // Reset daily chores and calculate scores
+    const dailyChoresSnapshot = await getDocs(collection(db, 'dailyChores'));
+    for (const doc of dailyChoresSnapshot.docs) {
+      const docUpdate = {};
+      Object.keys(doc.data().days).forEach(day => {
+        docUpdate[`days.${day}.completedBy`] = 'null'; // Reset completion status
+        const completedBy = doc.data().days[day]?.completedBy;
+        if (completedBy && scores.hasOwnProperty(completedBy)) {
+          scores[completedBy] += 1; // Increment score
+        }
+      });
+      batch.update(doc.ref, docUpdate);
     }
-
-  if (newKristynLastWeekScores > kristynHighScore) {
-    batch.update(kristynUserRef, { allTimeHighScores: newKristynLastWeekScores });
-  }
-
-    // Commit the batch
+  
+    // Reset weekly chores and calculate scores
+    const weeklyChoresSnapshot = await getDocs(collection(db, 'weeklyChores'));
+    for (const doc of weeklyChoresSnapshot.docs) {
+      const completedBy = doc.data().completedBy;
+      if (completedBy && scores.hasOwnProperty(completedBy)) {
+        scores[completedBy] += 2; // Assuming 2 points per weekly chore
+      }
+      batch.update(doc.ref, { completedBy: 'null' }); // Resetting after score calculation
+    }
+  
+    // Calculate scores for monthly chores completed within the last week
+    const monthlyChoresSnapshot = await getDocs(query(collection(db, 'monthlyChores'), where('completedDate', '>=', oneWeekAgo)));
+    for (const doc of monthlyChoresSnapshot.docs) {
+      const completedBy = doc.data().completedBy;
+      if (completedBy && scores.hasOwnProperty(completedBy)) {
+        scores[completedBy] += 3; // Assuming 3 points per monthly chore
+      }
+      // Note: We're not resetting monthly chores here as they might not reset weekly.
+    }
+  
+    // Prepare updates for user scores in the database
+    for (const user of Object.keys(scores)) {
+      const userRef = doc(db, 'userScores', user);
+      const userDoc = await getDoc(userRef);
+      const lastWeekScores = scores[user];
+      const allTimeHighScores = userDoc.exists() && userDoc.data().allTimeHighScores > lastWeekScores 
+                                ? userDoc.data().allTimeHighScores 
+                                : lastWeekScores;
+  
+      batch.update(userRef, { lastWeekScores, allTimeHighScores });
+    }
+  
+    // Commit the batch after all updates
     await batch.commit();
     handleScoresUpdated();
-    window.location.reload();
-  };  
+  };
   
   return (
     <UserStylesContext.Provider value={userStyles}>
