@@ -56,6 +56,8 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=[measurement-id]
 6. Start the development server:\
 ```npm run start```
 
+***Note you can add/edit the database to add/edit Users and Chores. Everything is populated dynamically***
+
 ## Firestore Database Structure
 
 To set up your Firestore Database, you will need to create the following collections and documents with the specified fields.
