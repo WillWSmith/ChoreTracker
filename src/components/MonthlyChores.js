@@ -64,7 +64,7 @@ const MonthlyChores = ({ users }) => {
       <table>
         <thead>
           <tr>
-            <th>Chore</th>
+            <th></th>
             <th>Completed By</th>
             <th>Completed Date</th>
           </tr>
