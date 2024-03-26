@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../Firebase';
-import { doc, getDoc, updateDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import NewWeekButton from './NewWeekButton';
+import { doc, getDoc } from 'firebase/firestore';
 
 const HiScores = ({ refreshTrigger }) => {
   const [scores, setScores] = useState({

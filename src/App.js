@@ -7,7 +7,7 @@ import MonthlyChores from './components/MonthlyChores';
 import HiScores from './components/HiScores';
 import NewWeekButton from './components/NewWeekButton';
 import { db } from './Firebase';
-import { collection, getDocs, updateDoc, doc, writeBatch, query, where, increment, getDoc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, writeBatch, query, where, getDoc } from 'firebase/firestore';
 
 function App() {
   const [refreshScores, setRefreshScores] = useState(false);
