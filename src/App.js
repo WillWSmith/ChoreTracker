@@ -8,6 +8,7 @@ import WeeklyChores from './components/WeeklyChores';
 import MonthlyChores from './components/MonthlyChores';
 import HiScores from './components/HiScores';
 import NewWeekButton from './components/NewWeekButton';
+import BackToTopButton from './components/BackToTopButton';
 import { db } from './Firebase';
 import { collection, getDocs, doc, writeBatch, query, where, getDoc } from 'firebase/firestore';
 
@@ -77,7 +78,7 @@ function App() {
       if (completedBy && scores.hasOwnProperty(completedBy)) {
         scores[completedBy] += 3; // Assuming 3 points per monthly chore
       }
-      // Note: We're not resetting monthly chores here as they might not reset weekly.
+      // Note: We're not resetting monthly chores here as they do not reset weekly.
     }
   
     // Prepare updates for user scores in the database
@@ -93,8 +94,13 @@ function App() {
     }
   
     // Commit the batch after all updates
-    await batch.commit();
-    handleScoresUpdated();
+    try {
+      await batch.commit(); // Waits for the batch commit to complete
+      console.log('Batch commit successful, refreshing page...');
+      window.location.reload(); // Refresh the page
+  } catch (error) {
+      console.error("Failed to commit batch or refresh page:", error);
+  }
   };
   
   return (
@@ -117,6 +123,7 @@ function App() {
       <div className="HiScores">
         <HiScores refreshTrigger={refreshScores} users={users}/>
       </div>
+      <BackToTopButton />
     </div>
     </UserStylesContext.Provider>
   );
