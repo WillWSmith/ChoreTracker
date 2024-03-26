@@ -72,14 +72,14 @@ const MonthlyChores = ({ users }) => {
         <tbody>
           {chores.map(chore => (
             <tr key={chore.id}>
-              <td>{chore.name}</td>
+              <td className="chore-name">{chore.name}</td>
               <td style={getStyleForUser(chore.completedBy)}
                   onClick={() => updateChoreStatus(chore.id)}>
                 <span className="cell-initial">
                   {getInitials(chore.completedBy)}
                 </span>
               </td>
-              <td>
+              <td className="centerDate">
                 {chore.completedBy !== 'null' ? formatDate(chore.completedDate) : ''}
               </td>
             </tr>

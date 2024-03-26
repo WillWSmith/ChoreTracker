@@ -67,7 +67,7 @@ const DailyChores = ({ users }) => {
         <tbody>
   {chores.map(chore => (
     <tr key={chore.id}>
-      <td>{chore.name}</td>
+      <td className="chore-name">{chore.name}</td>
       {daysOfWeek.map(day => {
         const completedBy = chore.days[day]?.completedBy;
         let cellClass = 'chore-cell';

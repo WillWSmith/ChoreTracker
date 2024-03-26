@@ -65,7 +65,7 @@ const WeeklyChores = ({ users }) => {
         <tbody>
           {chores.map(chore => (
             <tr key={chore.id}>
-              <td>{chore.name}</td>
+              <td className="chore-name">{chore.name}</td>
               <td
                 style={getStyleForUser(chore.completedBy)}
                 onClick={() => updateChoreStatus(chore.id)}
