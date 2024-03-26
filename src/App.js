@@ -14,6 +14,10 @@ import { collection, getDocs, updateDoc, doc, writeBatch, query, where, getDoc }
 function App() {
   const users = useFetchUsers();
 
+  // ***** NOTE ***** //
+  // The userStyles object below is used to set the background color of the cells in the DailyChores, WeeklyChores, and HiScores components. In the database the name of the id for userScores is the same as the name of the user. This is the only ID field in which you must use a specific name. All other ID fields can be auto-generated or whatever you'd like without issue. If you'd like to change the name of the id field in userScores, you must also update the userStyles object below to match the new name.
+  // ***** NOTE ***** //
+  
   const userStyles = {
     // Default styles; Match Document name for user in db to set cell colour
     // 'document name': { backgroundColor: 'color' }
