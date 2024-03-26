@@ -10,7 +10,7 @@ ChoreTracker is a web application designed to help users efficiently manage and 
 - **Up-to-Date Data on Load**: Utilizes Firebase's robust cloud infrastructure to ensure the latest data is presented each time the page is loaded, offering a seamless and updated view of information reflective of any changes made by users.
 
 ## Demo
-[Click here to try out the demo version.]()
+[Click here to try out the demo version.](https://willwsmith.github.io/ChoreTracker/)
 
 ## Getting Started
 
