@@ -146,15 +146,6 @@ input::placeholder, textarea::placeholder {
   font-weight: bold;
 }
 
-.chore-cell-will {
-  background-color: green;
-}
-
-/* Styling for Kristyn's cells */
-.chore-cell-kristyn {
-  background-color: pink;
-}
-
 .cell-initial {
   display: flex;
   justify-content: center;

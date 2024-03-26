@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useFetchUsers } from './hooks/useFetchUsers';
 import './App.css';
+import UserStylesContext from './contexts/UserStylesContext';
 import ChoreTracker from './components/ChoreTracker';
 import DailyChores from './components/DailyChores';
 import WeeklyChores from './components/WeeklyChores';
@@ -10,6 +12,19 @@ import { db } from './Firebase';
 import { collection, getDocs, updateDoc, doc, writeBatch, query, where, getDoc } from 'firebase/firestore';
 
 function App() {
+  const users = useFetchUsers();
+
+  const userStyles = {
+    // Default styles; Match Document name for user in db to set cell colour
+    // 'document name': { backgroundColor: 'color' }
+
+    // Default Example:
+    'Will': { backgroundColor: '#90ee90' },
+    'Kristyn': { backgroundColor: '#ffb6c1' },
+    'Kevin': { backgroundColor: '#87ceeb' }
+  
+  };
+
   const [refreshScores, setRefreshScores] = useState(false);
 
   const handleScoresUpdated = () => {
@@ -100,24 +115,26 @@ function App() {
   };  
   
   return (
+    <UserStylesContext.Provider value={userStyles}>
     <div className="App">
       <header className="App-header">
         <ChoreTracker />
       </header>
       <div className="DailyChores">
-        <DailyChores />
+        <DailyChores users={users}/>
       </div>
       <div className="WeeklyChores">
-        <WeeklyChores />
+        <WeeklyChores users={users}/>
       </div>
       <div className="MonthlyChores">
-        <MonthlyChores />
+        <MonthlyChores users={users}/>
       </div>
       <NewWeekButton onNewWeek={calculateAndResetScores} />
       <div className="HiScores">
-        <HiScores refreshTrigger={refreshScores} />
+        <HiScores refreshTrigger={refreshScores} users={users}/>
       </div>
     </div>
+    </UserStylesContext.Provider>
   );
 }
 
