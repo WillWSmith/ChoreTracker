@@ -14,7 +14,7 @@ ChoreTracker is a web application designed to help users efficiently manage and 
 
 ## How It Works
 
-Click on a cell of the table to mark off a chore completed(Click until the users colour and initial who completed the chore is showing). This can be done for each day of the week for Daily Chores, Once for each Weekly Chore and for each Monthly chore the date completed will also be marked.
+Click on a cell of a Chore table to mark a chore completed(Click until the users colour and initial who completed the chore is showing). This can be done for each day of the week for Daily Chores, Once for each Weekly Chore and for each Monthly chore the date completed will also be marked.
 
 At the end of the week or the start of a new week you will click the "New Week" Button. This will calculate the users scores for the week and update the Last Week's Score and the All Time HighScore if you beat it! The scoring works as follows:
 
