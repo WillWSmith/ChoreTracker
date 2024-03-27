@@ -12,6 +12,20 @@ ChoreTracker is a web application designed to help users efficiently manage and 
 ## Demo
 [Click here to try out the demo version.](https://willwsmith.github.io/ChoreTracker/)
 
+## How It Works
+
+Click on a cell of the table to mark off a chore completed(Click until the users colour and initial who completed the chore is showing). This can be done for each day of the week for Daily Chores, Once for each Weekly Chore and for each Monthly chore the date completed will also be marked.
+
+At the end of the week or the start of a new week you will click the "New Week" Button. This will calculate the users scores for the week and update the Last Week's Score and the All Time HighScore if you beat it! The scoring works as follows:
+
+- 1 Point for each Daily Chore completed
+- 2 Points for each Weekly Chore completed
+- 3 Points for each Monthly chore completed in the last 7 days.
+
+After the score is calculated the Weekly and Daily chores completion status will be reset to "null" to represent the beginning of a new week. Monthly Chores are never reset so we can remember the last Date it was completed. (To be honest, this is also to guilt us into doing chores that havent been completed in awhile.)
+
+Keep in mind that this app is dynamic and many customizations can be made simply by editing the database. (In the case of Users and Chores) Other customization can be done simply by changing a line of code or two. (In the case of selecting the colour for a user.)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
