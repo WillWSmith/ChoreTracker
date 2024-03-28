@@ -47,8 +47,8 @@ These instructions will get you a copy of the project up and running on your loc
 ```npm install```
 
 4. Setup Database:\
-To set up your Firestore Database using the exported db files found in the /misc/ folder of this project:\
- - Navigate to the [Firebase Console](https://console.firebase.google.com/), select your project, and go to the Firestore Database section.
+To set up your Firestore Database using the exported db files found in the /misc/ folder of this project:
+- Navigate to the [Firebase Console](https://console.firebase.google.com/), select your project, and go to the Firestore Database section.
 - Follow the Firebase documentation for importing data to Firestore. Since Google's setup instructions may change over time, refer to the [official Firebase documentation](https://firebase.google.com/docs/firestore) for the most current methods.
 - Reminder: There are multiple ways to import data into Firestore. If the provided method changes, please consult the Firebase documentation or other current resources for guidance.
 
