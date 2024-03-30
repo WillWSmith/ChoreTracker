@@ -47,6 +47,10 @@
   --scoreboard-accent: #6574cd;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -288,7 +292,7 @@ input::placeholder, textarea::placeholder {
 .scoreboard h2 {
   font-size: 1.5rem;
   margin: auto;
-  color: var(--scoreboard-accent); /* Use the accent color for headings */
+  color: var(--scoreboard-accent);
 }
 
 .scoreboard .score {
@@ -297,13 +301,13 @@ input::placeholder, textarea::placeholder {
 }
 
 .scoreboard .score h3, .scoreboard .score .score-indicator {
-  color: var(--scoreboard-text); /* Ensure text color is readable against the background */
+  color: var(--scoreboard-text);
 }
 
 .scoreboard .score .score-value {
   font-size: 2.5rem;
   font-family: var(--header-font);
-  color: var(--text-color); /* Text color for score values for better visibility */
+  color: var(--text-color);
   margin: 0;
 }
 
