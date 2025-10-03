@@ -59,8 +59,12 @@ const MonthlyChores = ({ users }) => {
   };
 
   return (
-    <div>
-      <h2>Monthly Chores</h2>
+    <div className="module">
+      <div className="module-header">
+        <h2>Monthly Milestones</h2>
+        <p className="module-description">Document the deep cleans and infrequent triumphs with time-stamped flair.</p>
+      </div>
+      <div className="table-scroller">
       <table>
         <thead>
           <tr>
@@ -86,6 +90,7 @@ const MonthlyChores = ({ users }) => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

@@ -53,8 +53,12 @@ const WeeklyChores = ({ users }) => {
   };
 
   return (
-    <div>
-      <h2>Weekly Chores</h2>
+    <div className="module">
+      <div className="module-header">
+        <h2>Weekly Wins</h2>
+        <p className="module-description">Log the bigger lifts and hand off bragging rights each time you click.</p>
+      </div>
+      <div className="table-scroller">
       <table>
         <thead>
           <tr>
@@ -76,6 +80,7 @@ const WeeklyChores = ({ users }) => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };
