@@ -1,50 +1,54 @@
 :root {
-  /* Light Theme Colors */
+  /* Light Theme Colours */
   --background-color: #FFFFFF;
-  --accent-color: #007BFF;
+  /* Primary accent colour draws from Will's favourite green */
+  --accent-color: #4CAF50;
   --text-color: #212529;
   --secondary-text-color: #6C757D;
   --header-font: 'Orbitron', sans-serif;
   --body-font: 'Roboto', sans-serif;
+  /* Subtle green gradient background */
   --gradient-start: #ffffff;
-  --gradient-end: #f0f0f0;
+  --gradient-end: #f4fff4;
   --table-bg: #FFFFFF;
   --table-text: #212529;
-  --table-hover-bg: #F8F9FA;
+  /* Hover background uses a pale green tint */
+  --table-hover-bg: #eef9f0;
   --table-header-bg: #F0F0F0;
   --container-bg: #F8F9FA;
   --container-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.1);
-  --table-bg: #FFFFFF;
-  --table-text: #212529;
-  --table-hover-bg: #EFEFEF;
-  --table-header-bg: #E8E8E8;
-  --table-first-child-bg: #F0F0F0;
-  --newWeekHover: #0056b3;
-  --scoreboard-bg: #EEEEEE;
+  --table-first-child-bg: #F0F7F0;
+  /* Darker shade of green for hover states */
+  --newWeekHover: #388E3C;
+  /* Scoreboard styling uses pale pink to honour Kristyn's favourite colour */
+  --scoreboard-bg: #F8F0F3;
   --scoreboard-text: #333;
-  --scoreboard-accent: #007BFF;
+  --scoreboard-accent: #E91E63;
 }
 
 [data-theme='dark'] {
-  /* Dark Theme Colors */
+  /* Dark Theme Colours */
   --background-color: #121212;
-  --accent-color: #6574cd;
+  /* Softer green accent for dark mode */
+  --accent-color: #81C784;
   --text-color: #E9ECEF;
   --secondary-text-color: #ADB5BD;
   --header-font: 'Orbitron', sans-serif;
   --body-font: 'Roboto', sans-serif;
-  --gradient-start: #292929;
-  --gradient-end: #333333;
+  /* Dark gradient with a hint of green */
+  --gradient-start: #1a1a1a;
+  --gradient-end: #223322;
   --table-bg: #1E1E1E;
   --table-text: #E9ECEF;
-  --table-hover-bg: #292929;
+  --table-hover-bg: #2A352A;
   --table-header-bg: #242424;
   --container-bg: #333333;
   --container-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3), -4px -4px 8px rgba(0, 0, 0, 0.2);
-  --newWeekHover: #3647ac;
-  --scoreboard-bg: #222;
+  --newWeekHover: #388E3C;
+  --scoreboard-bg: #222222;
   --scoreboard-text: #E9ECEF;
-  --scoreboard-accent: #6574cd;
+  /* Deeper pink accent for dark mode */
+  --scoreboard-accent: #EC407A;
 }
 
 *, *::before, *::after {
@@ -207,7 +211,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0.5em 0;
 }
 
-p, li, a, span { 
+p, li, a, span {
   color: var(--text-color);
 }
 
@@ -274,7 +278,7 @@ input::placeholder, textarea::placeholder {
   cursor: default;
 }
 
-/* ScoreBoard Style */
+/* Scoreboard Style */
 
 .scoreboard {
   background-color: var(--scoreboard-bg);
