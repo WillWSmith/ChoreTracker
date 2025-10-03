@@ -53,8 +53,12 @@ const DailyChores = ({ users }) => {
   };
 
   return (
-    <div>
-      <h2>Daily Chores</h2>
+    <div className="module">
+      <div className="module-header">
+        <h2>Daily Rituals</h2>
+        <p className="module-description">Your daily chores grid. Tap a cell to hand the glory to the next hero.</p>
+      </div>
+      <div className="table-scroller">
       <table>
         <thead>
           <tr>
@@ -89,6 +93,7 @@ const DailyChores = ({ users }) => {
   ))}
 </tbody>
       </table>
+      </div>
     </div>
   );
 };
