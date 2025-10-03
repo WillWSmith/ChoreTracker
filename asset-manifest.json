@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ChoreTracker/static/css/main.88aeaa09.css",
-    "main.js": "/ChoreTracker/static/js/main.fdd525f2.js",
+    "main.css": "/ChoreTracker/static/css/main.3174d111.css",
+    "main.js": "/ChoreTracker/static/js/main.50b502fc.js",
     "static/js/453.5134e811.chunk.js": "/ChoreTracker/static/js/453.5134e811.chunk.js",
     "index.html": "/ChoreTracker/index.html",
-    "main.88aeaa09.css.map": "/ChoreTracker/static/css/main.88aeaa09.css.map",
-    "main.fdd525f2.js.map": "/ChoreTracker/static/js/main.fdd525f2.js.map",
+    "main.3174d111.css.map": "/ChoreTracker/static/css/main.3174d111.css.map",
+    "main.50b502fc.js.map": "/ChoreTracker/static/js/main.50b502fc.js.map",
     "453.5134e811.chunk.js.map": "/ChoreTracker/static/js/453.5134e811.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.88aeaa09.css",
-    "static/js/main.fdd525f2.js"
+    "static/css/main.3174d111.css",
+    "static/js/main.50b502fc.js"
   ]
 }
