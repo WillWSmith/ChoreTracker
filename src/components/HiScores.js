@@ -22,16 +22,34 @@ const HiScores = ({ refreshTrigger }) => {
 
   return (
     <div className="scoreboard">
-      <h2>High Scores</h2>
-      {Object.keys(scores).map(userName => (
-        <div className="score" key={userName}>
-          <h3 style={userStyles[userName]}>{userName}</h3>
-          <div className="score-value">{scores[userName].lastWeekScores}</div>
-          <div className="score-indicator">Last Week</div>
-          <div className="score-value">{scores[userName].allTimeHighScores}</div>
-          <div className="score-indicator">All Time</div>
-        </div>
-      ))}
+      <div className="scoreboard-header">
+        <span className="scoreboard-eyebrow">Competitive Spark</span>
+        <h2>Legacy Scoreboard</h2>
+        <p className="scoreboard-description">Celebrate the latest MVPs and salute the reigning champions.</p>
+      </div>
+      <div className="scoreboard-grid">
+        {Object.keys(scores).map(userName => {
+          const accentStyle = userStyles[userName] || {};
+          return (
+            <div className="score-card" key={userName}>
+              <div className="score-card-header" style={accentStyle}>
+                <span className="score-avatar">{userName.charAt(0)}</span>
+                <h3>{userName}</h3>
+              </div>
+              <div className="score-metrics">
+                <div className="metric">
+                  <span className="metric-label">Last Week</span>
+                  <span className="metric-value">{scores[userName].lastWeekScores}</span>
+                </div>
+                <div className="metric">
+                  <span className="metric-label">All Time</span>
+                  <span className="metric-value">{scores[userName].allTimeHighScores}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

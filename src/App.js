@@ -30,11 +30,7 @@ function App() {
   
   };
 
-  const [refreshScores, setRefreshScores] = useState(false);
-
-  const handleScoresUpdated = () => {
-    setRefreshScores(prev => !prev);
-  };
+  const [refreshScores, setRefreshScores] = useState(0);
 
   const calculateAndResetScores = async () => {
     const oneWeekAgo = new Date();
@@ -96,6 +92,7 @@ function App() {
     // Commit the batch after all updates
     try {
       await batch.commit(); // Waits for the batch commit to complete
+      setRefreshScores((count) => count + 1);
       console.log('Batch commit successful, refreshing page...');
       window.location.reload(); // Refresh the page
   } catch (error) {
@@ -104,27 +101,42 @@ function App() {
   };
   
   return (
-  <UserStylesContext.Provider value={userStyles}>
-    <div className="App">
-    <header className="App-header">
-      <h1>Chore Tracker</h1>
-      <ChoreTracker />
-    </header>
-      <div className="DailyChores">
-        <DailyChores users={users}/>
+    <UserStylesContext.Provider value={userStyles}>
+      <div className="App">
+        <div className="app-gradient" aria-hidden="true"></div>
+        <div className="app-wrapper">
+          <header className="page-header">
+            <div className="header-copy">
+              <span className="header-eyebrow">Will &amp; Kristyn Homebase</span>
+              <h1>Chore Atlas</h1>
+              <p className="header-description">
+                Track the little wins, celebrate the big ones, and keep chores balanced between the two of you.
+              </p>
+            </div>
+            <div className="header-actions">
+              <ChoreTracker />
+              <NewWeekButton onNewWeek={calculateAndResetScores} />
+            </div>
+          </header>
+
+          <section className="score-section">
+            <HiScores refreshTrigger={refreshScores} />
+          </section>
+
+          <main className="board-grid">
+            <section className="board-card">
+              <DailyChores users={users} />
+            </section>
+            <section className="board-card">
+              <WeeklyChores users={users} />
+            </section>
+            <section className="board-card board-card--wide">
+              <MonthlyChores users={users} />
+            </section>
+          </main>
+        </div>
+        <BackToTopButton />
       </div>
-      <div className="WeeklyChores">
-        <WeeklyChores users={users}/>
-      </div>
-      <div className="MonthlyChores">
-        <MonthlyChores users={users}/>
-      </div>
-      <NewWeekButton onNewWeek={calculateAndResetScores} />
-      <div className="HiScores">
-        <HiScores refreshTrigger={refreshScores} users={users}/>
-      </div>
-      <BackToTopButton />
-    </div>
     </UserStylesContext.Provider>
   );
 }
