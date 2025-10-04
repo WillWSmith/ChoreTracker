@@ -30,7 +30,7 @@ function App() {
   
   };
 
-  const [refreshScores, setRefreshScores] = useState(0);
+  const [refreshScores] = useState(false);
 
   const calculateAndResetScores = async () => {
     const oneWeekAgo = new Date();
@@ -103,36 +103,43 @@ function App() {
   return (
     <UserStylesContext.Provider value={userStyles}>
       <div className="App">
-        <div className="app-gradient" aria-hidden="true"></div>
-        <div className="app-wrapper">
-          <header className="page-header">
-            <div className="header-copy">
-              <span className="header-eyebrow">Will &amp; Kristyn Homebase</span>
-              <h1>Chore Atlas</h1>
-              <p className="header-description">
-                Track the little wins, celebrate the big ones, and keep chores balanced between the two of you.
+        <div className="aurora aurora-one" aria-hidden="true"></div>
+        <div className="aurora aurora-two" aria-hidden="true"></div>
+        <div className="app-shell">
+          <header className="hero">
+            <div className="hero-copy">
+              <span className="hero-eyebrow">Will &amp; Kristyn Mission Control</span>
+              <h1>Chore Constellation</h1>
+              <p className="hero-description">
+                A luminous dashboard for celebrating every task tackled together. Rotate
+                credit with a tap, relaunch each week in a click, and keep your friendly
+                rivalry thriving.
               </p>
+              <div className="hero-actions">
+                <NewWeekButton onNewWeek={calculateAndResetScores} />
+                <div className="hero-toggle">
+                  <ChoreTracker />
+                  <span className="hero-toggle-label">Night mode locked</span>
+                </div>
+              </div>
             </div>
-            <div className="header-actions">
-              <ChoreTracker />
-              <NewWeekButton onNewWeek={calculateAndResetScores} />
+            <div className="hero-highlight">
+              <HiScores refreshTrigger={refreshScores} />
             </div>
           </header>
 
-          <section className="score-section">
-            <HiScores refreshTrigger={refreshScores} />
-          </section>
-
-          <main className="board-grid">
-            <section className="board-card">
-              <DailyChores users={users} />
-            </section>
-            <section className="board-card">
-              <WeeklyChores users={users} />
-            </section>
-            <section className="board-card board-card--wide">
-              <MonthlyChores users={users} />
-            </section>
+          <main className="dashboard">
+            <div className="panel-grid">
+              <section className="panel panel-daily">
+                <DailyChores users={users} />
+              </section>
+              <section className="panel panel-weekly">
+                <WeeklyChores users={users} />
+              </section>
+              <section className="panel panel-monthly">
+                <MonthlyChores users={users} />
+              </section>
+            </div>
           </main>
         </div>
         <BackToTopButton />
