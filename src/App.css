@@ -590,6 +590,7 @@ button {
   .score-metrics {
     grid-template-columns: 1fr;
   }
+}
 
   .top-btn {
     right: 1.5rem;
