@@ -92,7 +92,7 @@ function App() {
     // Commit the batch after all updates
     try {
       await batch.commit(); // Waits for the batch commit to complete
-      setRefreshScores((count) => count + 1);
+      refreshScores((count) => count + 1);
       console.log('Batch commit successful, refreshing page...');
       window.location.reload(); // Refresh the page
   } catch (error) {
