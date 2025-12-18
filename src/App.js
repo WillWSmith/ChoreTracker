@@ -100,52 +100,53 @@ function App() {
   }
   };
   
-  return (
-    <UserStylesContext.Provider value={userStyles}>
-      <div className="App">
-        <div className="aurora aurora-one" aria-hidden="true"></div>
-        <div className="aurora aurora-two" aria-hidden="true"></div>
-        <div className="app-shell">
-          <header className="hero">
-            <div className="hero-copy">
-              <span className="hero-eyebrow">Will &amp; Kristyn Mission Control</span>
-              <h1>Chore Constellation</h1>
-              <p className="hero-description">
-                A luminous dashboard for celebrating every task tackled together. Rotate
-                credit with a tap, relaunch each week in a click, and keep your friendly
-                rivalry thriving.
-              </p>
-              <div className="hero-actions">
-                <NewWeekButton onNewWeek={calculateAndResetScores} />
-                <div className="hero-toggle">
-                  <ChoreTracker />
-                  <span className="hero-toggle-label">Night mode locked</span>
-                </div>
-              </div>
-            </div>
-            <div className="hero-highlight">
-              <HiScores refreshTrigger={refreshScores} />
-            </div>
-          </header>
+return (
+  <UserStylesContext.Provider value={userStyles}>
+    <div className="app-container">
+      <header className="card">
+        <div className="app-header">
+          <h1 className="app-title">Chore Constellation</h1>
+          <p className="app-subtitle">
+            Stay consistent. Earn points. Dominate chores.
+          </p>
 
-          <main className="dashboard">
-            <div className="panel-grid">
-              <section className="panel panel-daily">
-                <DailyChores users={users} />
-              </section>
-              <section className="panel panel-weekly">
-                <WeeklyChores users={users} />
-              </section>
-              <section className="panel panel-monthly">
-                <MonthlyChores users={users} />
-              </section>
-            </div>
-          </main>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <NewWeekButton onNewWeek={calculateAndResetScores} />
+            <ChoreTracker />
+          </div>
         </div>
-        <BackToTopButton />
-      </div>
-    </UserStylesContext.Provider>
-  );
+      </header>
+
+      <section className="card" style={{ marginTop: '1.5rem' }}>
+        <HiScores refreshTrigger={refreshScores} />
+      </section>
+
+      <main style={{ marginTop: '1.5rem' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.25rem'
+          }}
+        >
+          <section className="card">
+            <DailyChores users={users} />
+          </section>
+
+          <section className="card">
+            <WeeklyChores users={users} />
+          </section>
+
+          <section className="card">
+            <MonthlyChores users={users} />
+          </section>
+        </div>
+      </main>
+
+      <BackToTopButton />
+    </div>
+  </UserStylesContext.Provider>
+);
 }
 
 export default App;
