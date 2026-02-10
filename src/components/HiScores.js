@@ -23,9 +23,7 @@ const HiScores = ({ refreshTrigger, users }) => {
   return (
     <div className="scoreboard">
       <div className="scoreboard-header">
-        <span className="scoreboard-eyebrow">🏆 Competitive Edge</span>
-        <h2>Leaderboard</h2>
-        <p className="scoreboard-description">Celebrate achievements and chase new records</p>
+        <h2>High Scores</h2>
       </div>
       <div className="scoreboard-grid">
         {Object.keys(scores).map(userName => {

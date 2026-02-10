@@ -299,6 +299,7 @@ td {
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
   transition: all 0.2s ease;
+  background: var(--bg-card);
 }
 
 tr:last-child td:first-child {
@@ -325,8 +326,9 @@ tr:hover td {
   position: relative;
 }
 
+/* IMPORTANT: Let user background colors show through */
 .chore-cell:hover {
-  background: var(--bg-hover) !important;
+  opacity: 0.9;
 }
 
 [data-theme='will'] .chore-cell:hover {
@@ -341,6 +343,7 @@ tr:hover td {
   font-weight: 700;
   font-size: 1.1rem;
   display: inline-block;
+  color: #000;
 }
 
 .centerDate {
@@ -359,31 +362,17 @@ tr:hover td {
   margin-bottom: 2rem;
 }
 
-.scoreboard-eyebrow {
-  display: inline-block;
-  background: var(--accent-primary);
-  color: white;
-  padding: 0.25rem 1rem;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 1rem;
-}
-
-[data-theme='kristyn'] .scoreboard-eyebrow {
-  background: linear-gradient(135deg, var(--kristyn-accent) 0%, var(--kristyn-rose-gold) 100%);
-}
-
 .scoreboard-header h2 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  color: var(--accent-primary);
 }
 
-.scoreboard-description {
-  color: var(--text-muted);
-  font-size: 0.95rem;
+[data-theme='kristyn'] .scoreboard-header h2 {
+  background: linear-gradient(135deg, var(--kristyn-accent) 0%, var(--kristyn-rose-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .scoreboard-grid {

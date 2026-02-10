@@ -24,7 +24,7 @@ function App() {
     'Kevin': { backgroundColor: '#87ceeb' }
   };
 
-  const [refreshScores] = useState(false);
+  const [refreshScores, setRefreshScores] = useState(false);
 
   // Toggle between Will and Kristyn themes
   const toggleTheme = (theme) => {
@@ -95,6 +95,7 @@ function App() {
   
     try {
       await batch.commit();
+      setRefreshScores(prev => !prev);
       console.log('Batch commit successful, refreshing page...');
       window.location.reload();
     } catch (error) {
@@ -131,14 +132,6 @@ function App() {
           </div>
         </div>
 
-        <section className="card" style={{ marginTop: '1.5rem' }}>
-          <HiScores refreshTrigger={refreshScores} users={users} />
-        </section>
-
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-          <NewWeekButton onNewWeek={calculateAndResetScores} />
-        </div>
-
         <main style={{ marginTop: '1.5rem' }}>
           <div
             style={{
@@ -160,6 +153,14 @@ function App() {
             </section>
           </div>
         </main>
+
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <NewWeekButton onNewWeek={calculateAndResetScores} />
+        </div>
+
+        <section className="card" style={{ marginTop: '1.5rem' }}>
+          <HiScores refreshTrigger={refreshScores} users={users} />
+        </section>
 
         <BackToTopButton />
       </div>
