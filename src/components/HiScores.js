@@ -3,7 +3,7 @@ import { db } from '../Firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import UserStylesContext from '../contexts/UserStylesContext';
 
-const HiScores = ({ refreshTrigger }) => {
+const HiScores = ({ refreshTrigger, users }) => {
   const [scores, setScores] = useState({});
   const userStyles = useContext(UserStylesContext);
 
@@ -23,9 +23,9 @@ const HiScores = ({ refreshTrigger }) => {
   return (
     <div className="scoreboard">
       <div className="scoreboard-header">
-        <span className="scoreboard-eyebrow">Competitive Spark</span>
-        <h2>Legacy Scoreboard</h2>
-        <p className="scoreboard-description">Celebrate the latest MVPs and salute the reigning champions.</p>
+        <span className="scoreboard-eyebrow">🏆 Competitive Edge</span>
+        <h2>Leaderboard</h2>
+        <p className="scoreboard-description">Celebrate achievements and chase new records</p>
       </div>
       <div className="scoreboard-grid">
         {Object.keys(scores).map(userName => {
@@ -55,4 +55,3 @@ const HiScores = ({ refreshTrigger }) => {
 };
 
 export default HiScores;
-

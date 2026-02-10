@@ -33,13 +33,10 @@ const DailyChores = ({ users }) => {
     const nextUser = nextUserIndex < users.length ? users[nextUserIndex] : 'null';
   
     try {
-      // Update database
       const choreRef = doc(db, 'dailyChores', choreId);
       await updateDoc(choreRef, {
         [`days.${day}.completedBy`]: nextUser,
       });
-  
-      // After successful update, refetch data to ensure UI is in sync
       await fetchData();
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -56,43 +53,40 @@ const DailyChores = ({ users }) => {
     <div className="module">
       <div className="module-header">
         <h2>Daily Rituals</h2>
-        <p className="module-description">Your daily chores grid. Tap a cell to hand the glory to the next hero.</p>
+        <p className="module-description">Track your daily victories across the week</p>
       </div>
       <div className="table-scroller">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            {daysOfWeek.map(day => (
-              <th key={day}>{day}</th>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              {daysOfWeek.map(day => (
+                <th key={day}>{day.slice(0, 3)}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {chores.map(chore => (
+              <tr key={chore.id}>
+                <td className="chore-name">{chore.name}</td>
+                {daysOfWeek.map(day => {
+                  const completedBy = chore.days[day]?.completedBy;
+                  const userInitial = users.includes(completedBy) ? completedBy.charAt(0) : '';
+                  return (
+                    <td 
+                      style={getStyleForUser(chore.days[day]?.completedBy)} 
+                      className="chore-cell"
+                      key={day}
+                      onClick={() => updateChoreStatus(chore.id, day)}
+                    >
+                      <span className="cell-initial">{userInitial}</span>
+                    </td>
+                  );
+                })}
+              </tr>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-  {chores.map(chore => (
-    <tr key={chore.id}>
-      <td className="chore-name">{chore.name}</td>
-      {daysOfWeek.map(day => {
-        const completedBy = chore.days[day]?.completedBy;
-        let cellClass = 'chore-cell';
-        // Find user in the users array and get the initial
-        const userInitial = users.includes(completedBy) ? completedBy.charAt(0) : '';
-        if (completedBy) {
-          cellClass += ` chore-cell-${completedBy.toLowerCase()}`;
-        }
-        return (
-          <td style={getStyleForUser(chore.days[day]?.completedBy)} className={cellClass}
-              key={day}
-              onClick={() => updateChoreStatus(chore.id, day)}
-          >
-            <span className="cell-initial">{userInitial}</span>
-          </td>
-        );
-      })}
-    </tr>
-  ))}
-</tbody>
-      </table>
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -29,12 +29,10 @@ const WeeklyChores = ({ users }) => {
     const nextUser = nextUserIndex < users.length ? users[nextUserIndex] : 'null';
 
     try {
-      // Update local state
       setChores(prevChores => prevChores.map(c =>
         c.id === choreId ? { ...c, completedBy: nextUser } : c
       ));
 
-      // Update database
       const choreRef = doc(db, 'weeklyChores', choreId);
       await updateDoc(choreRef, {
         completedBy: nextUser,
@@ -56,30 +54,31 @@ const WeeklyChores = ({ users }) => {
     <div className="module">
       <div className="module-header">
         <h2>Weekly Wins</h2>
-        <p className="module-description">Log the bigger lifts and hand off bragging rights each time you click.</p>
+        <p className="module-description">Bigger tasks that make the difference</p>
       </div>
       <div className="table-scroller">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Completed By</th>
-          </tr>
-        </thead>
-        <tbody>
-          {chores.map(chore => (
-            <tr key={chore.id}>
-              <td className="chore-name">{chore.name}</td>
-              <td
-                style={getStyleForUser(chore.completedBy)}
-                onClick={() => updateChoreStatus(chore.id)}
-              >
-                <span className="cell-initial">{getUserInitial(chore.completedBy)}</span>
-              </td>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Completed By</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {chores.map(chore => (
+              <tr key={chore.id}>
+                <td className="chore-name">{chore.name}</td>
+                <td
+                  style={getStyleForUser(chore.completedBy)}
+                  className="chore-cell"
+                  onClick={() => updateChoreStatus(chore.id)}
+                >
+                  <span className="cell-initial">{getUserInitial(chore.completedBy)}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

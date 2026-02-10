@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useFetchUsers } from './hooks/useFetchUsers';
 import './App.css';
 import UserStylesContext from './contexts/UserStylesContext';
-import ChoreTracker from './components/ChoreTracker';
 import DailyChores from './components/DailyChores';
 import WeeklyChores from './components/WeeklyChores';
 import MonthlyChores from './components/MonthlyChores';
@@ -14,30 +13,36 @@ import { collection, getDocs, doc, writeBatch, query, where, getDoc } from 'fire
 
 function App() {
   const users = useFetchUsers();
+  const [currentTheme, setCurrentTheme] = useState(() => {
+    return localStorage.getItem('userTheme') || 'will';
+  });
 
-  // ***** NOTE ***** //
-  // The userStyles object below is used to set the background color of the cells in the DailyChores, WeeklyChores, and HiScores components. In the database the name of the id for userScores is the same as the name of the user. This is the only ID field in which you must use a specific name. All other ID fields can be auto-generated or whatever you'd like without issue. If you'd like to change the name of the id field in userScores, you must also update the userStyles object below to match the new name.
-  // ***** NOTE ***** //
-
+  // User color styles for table cells
   const userStyles = {
-    // Default styles; Match Document name for user in db to set cell colour
-    // 'document name': { backgroundColor: 'color' }
-
-    // Default Example:
     'Will': { backgroundColor: '#90ee90' },
     'Kristyn': { backgroundColor: '#ffb6c1' },
     'Kevin': { backgroundColor: '#87ceeb' }
-  
   };
 
   const [refreshScores] = useState(false);
+
+  // Toggle between Will and Kristyn themes
+  const toggleTheme = (theme) => {
+    setCurrentTheme(theme);
+    localStorage.setItem('userTheme', theme);
+    document.body.setAttribute('data-theme', theme);
+  };
+
+  React.useEffect(() => {
+    document.body.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
 
   const calculateAndResetScores = async () => {
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   
     let scores = users.reduce((acc, user) => {
-      acc[user] = 0; // Initialize score for each user
+      acc[user] = 0;
       return acc;
     }, {});
   
@@ -48,10 +53,10 @@ function App() {
     for (const doc of dailyChoresSnapshot.docs) {
       const docUpdate = {};
       Object.keys(doc.data().days).forEach(day => {
-        docUpdate[`days.${day}.completedBy`] = 'null'; // Reset completion status
+        docUpdate[`days.${day}.completedBy`] = 'null';
         const completedBy = doc.data().days[day]?.completedBy;
         if (completedBy && scores.hasOwnProperty(completedBy)) {
-          scores[completedBy] += 1; // Increment score
+          scores[completedBy] += 1;
         }
       });
       batch.update(doc.ref, docUpdate);
@@ -62,9 +67,9 @@ function App() {
     for (const doc of weeklyChoresSnapshot.docs) {
       const completedBy = doc.data().completedBy;
       if (completedBy && scores.hasOwnProperty(completedBy)) {
-        scores[completedBy] += 2; // Assuming 2 points per weekly chore
+        scores[completedBy] += 2;
       }
-      batch.update(doc.ref, { completedBy: 'null' }); // Resetting after score calculation
+      batch.update(doc.ref, { completedBy: 'null' });
     }
   
     // Calculate scores for monthly chores completed within the last week
@@ -72,9 +77,8 @@ function App() {
     for (const doc of monthlyChoresSnapshot.docs) {
       const completedBy = doc.data().completedBy;
       if (completedBy && scores.hasOwnProperty(completedBy)) {
-        scores[completedBy] += 3; // Assuming 3 points per monthly chore
+        scores[completedBy] += 3;
       }
-      // Note: We're not resetting monthly chores here as they do not reset weekly.
     }
   
     // Prepare updates for user scores in the database
@@ -89,64 +93,78 @@ function App() {
       batch.update(userRef, { lastWeekScores, allTimeHighScores });
     }
   
-    // Commit the batch after all updates
     try {
-      await batch.commit(); // Waits for the batch commit to complete
-      refreshScores((count) => count + 1);
+      await batch.commit();
       console.log('Batch commit successful, refreshing page...');
-      window.location.reload(); // Refresh the page
-  } catch (error) {
+      window.location.reload();
+    } catch (error) {
       console.error("Failed to commit batch or refresh page:", error);
-  }
+    }
   };
   
-return (
-  <UserStylesContext.Provider value={userStyles}>
-    <div className="app-container">
-      <header className="card">
+  return (
+    <UserStylesContext.Provider value={userStyles}>
+      <div className="app-container">
         <div className="app-header">
-          <h1 className="app-title">Chore Constellation</h1>
-          <p className="app-subtitle">
-            Stay consistent. Earn points. Dominate chores.
-          </p>
-
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <NewWeekButton onNewWeek={calculateAndResetScores} />
-            <ChoreTracker />
+          <div>
+            <h1 className="app-title">Chore Constellation</h1>
+            <p className="app-subtitle">
+              {currentTheme === 'will' 
+                ? 'Stay consistent. Earn points. Dominate chores.' 
+                : 'Track your tasks with elegance and grace ✨'}
+            </p>
+          </div>
+          
+          <div className="theme-controls">
+            <button 
+              className={`theme-toggle-btn ${currentTheme === 'will' ? 'active' : ''}`}
+              onClick={() => toggleTheme('will')}
+            >
+              Will's View
+            </button>
+            <button 
+              className={`theme-toggle-btn ${currentTheme === 'kristyn' ? 'active' : ''}`}
+              onClick={() => toggleTheme('kristyn')}
+            >
+              Kristyn's View
+            </button>
           </div>
         </div>
-      </header>
 
-      <section className="card" style={{ marginTop: '1.5rem' }}>
-        <HiScores refreshTrigger={refreshScores} />
-      </section>
+        <section className="card" style={{ marginTop: '1.5rem' }}>
+          <HiScores refreshTrigger={refreshScores} users={users} />
+        </section>
 
-      <main style={{ marginTop: '1.5rem' }}>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.25rem'
-          }}
-        >
-          <section className="card">
-            <DailyChores users={users} />
-          </section>
-
-          <section className="card">
-            <WeeklyChores users={users} />
-          </section>
-
-          <section className="card">
-            <MonthlyChores users={users} />
-          </section>
+        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+          <NewWeekButton onNewWeek={calculateAndResetScores} />
         </div>
-      </main>
 
-      <BackToTopButton />
-    </div>
-  </UserStylesContext.Provider>
-);
+        <main style={{ marginTop: '1.5rem' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gap: '1.5rem'
+            }}
+          >
+            <section className="card">
+              <DailyChores users={users} />
+            </section>
+
+            <section className="card">
+              <WeeklyChores users={users} />
+            </section>
+
+            <section className="card">
+              <MonthlyChores users={users} />
+            </section>
+          </div>
+        </main>
+
+        <BackToTopButton />
+      </div>
+    </UserStylesContext.Provider>
+  );
 }
 
 export default App;
