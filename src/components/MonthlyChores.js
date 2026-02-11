@@ -59,41 +59,36 @@ const MonthlyChores = ({ users }) => {
   };
 
   return (
-    <div className="module">
-      <div className="module-header">
-        <h2>Monthly Milestones</h2>
-        <p className="module-description">The deep cleans and major achievements</p>
-      </div>
-      <div className="table-scroller">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Who</th>
-              <th>When</th>
+    <div>
+      <h2>Monthly Chores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Completed By</th>
+            <th>Completed Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chores.map(chore => (
+            <tr key={chore.id}>
+              <td className="chore-name">{chore.name}</td>
+              <td 
+                style={getStyleForUser(chore.completedBy)}
+                className="chore-cell"
+                onClick={() => updateChoreStatus(chore.id)}
+              >
+                <span className="cell-initial">
+                  {getInitials(chore.completedBy)}
+                </span>
+              </td>
+              <td className="centerDate">
+                {chore.completedBy !== 'null' ? formatDate(chore.completedDate) : ''}
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {chores.map(chore => (
-              <tr key={chore.id}>
-                <td className="chore-name">{chore.name}</td>
-                <td 
-                  style={getStyleForUser(chore.completedBy)}
-                  className="chore-cell"
-                  onClick={() => updateChoreStatus(chore.id)}
-                >
-                  <span className="cell-initial">
-                    {getInitials(chore.completedBy)}
-                  </span>
-                </td>
-                <td className="centerDate">
-                  {chore.completedBy !== 'null' ? formatDate(chore.completedDate) : '—'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

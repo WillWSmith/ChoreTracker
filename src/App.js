@@ -17,7 +17,6 @@ function App() {
     return localStorage.getItem('userTheme') || 'will';
   });
 
-  // User color styles for table cells
   const userStyles = {
     'Will': { backgroundColor: '#90ee90' },
     'Kristyn': { backgroundColor: '#ffb6c1' },
@@ -26,7 +25,6 @@ function App() {
 
   const [refreshScores, setRefreshScores] = useState(false);
 
-  // Toggle between Will and Kristyn themes
   const toggleTheme = (theme) => {
     setCurrentTheme(theme);
     localStorage.setItem('userTheme', theme);
@@ -48,7 +46,6 @@ function App() {
   
     const batch = writeBatch(db);
   
-    // Reset daily chores and calculate scores
     const dailyChoresSnapshot = await getDocs(collection(db, 'dailyChores'));
     for (const doc of dailyChoresSnapshot.docs) {
       const docUpdate = {};
@@ -62,7 +59,6 @@ function App() {
       batch.update(doc.ref, docUpdate);
     }
   
-    // Reset weekly chores and calculate scores
     const weeklyChoresSnapshot = await getDocs(collection(db, 'weeklyChores'));
     for (const doc of weeklyChoresSnapshot.docs) {
       const completedBy = doc.data().completedBy;
@@ -72,7 +68,6 @@ function App() {
       batch.update(doc.ref, { completedBy: 'null' });
     }
   
-    // Calculate scores for monthly chores completed within the last week
     const monthlyChoresSnapshot = await getDocs(query(collection(db, 'monthlyChores'), where('completedDate', '>=', oneWeekAgo)));
     for (const doc of monthlyChoresSnapshot.docs) {
       const completedBy = doc.data().completedBy;
@@ -81,7 +76,6 @@ function App() {
       }
     }
   
-    // Prepare updates for user scores in the database
     for (const user of Object.keys(scores)) {
       const userRef = doc(db, 'userScores', user);
       const userDoc = await getDoc(userRef);
@@ -105,17 +99,9 @@ function App() {
   
   return (
     <UserStylesContext.Provider value={userStyles}>
-      <div className="app-container">
-        <div className="app-header">
-          <div>
-            <h1 className="app-title">Chore Constellation</h1>
-            <p className="app-subtitle">
-              {currentTheme === 'will' 
-                ? 'Stay consistent. Earn points. Dominate chores.' 
-                : 'Track your tasks with elegance and grace ✨'}
-            </p>
-          </div>
-          
+      <div className="App">
+        <header className="App-header">
+          <h1>Chore Tracker</h1>
           <div className="theme-controls">
             <button 
               className={`theme-toggle-btn ${currentTheme === 'will' ? 'active' : ''}`}
@@ -130,38 +116,26 @@ function App() {
               Kristyn's View
             </button>
           </div>
+        </header>
+        
+        <div className="DailyChores">
+          <DailyChores users={users} />
         </div>
-
-        <main style={{ marginTop: '1.5rem' }}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '1.5rem'
-            }}
-          >
-            <section className="card">
-              <DailyChores users={users} />
-            </section>
-
-            <section className="card">
-              <WeeklyChores users={users} />
-            </section>
-
-            <section className="card">
-              <MonthlyChores users={users} />
-            </section>
-          </div>
-        </main>
-
-        <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-          <NewWeekButton onNewWeek={calculateAndResetScores} />
+        
+        <div className="WeeklyChores">
+          <WeeklyChores users={users} />
         </div>
-
-        <section className="card" style={{ marginTop: '1.5rem' }}>
+        
+        <div className="MonthlyChores">
+          <MonthlyChores users={users} />
+        </div>
+        
+        <NewWeekButton onNewWeek={calculateAndResetScores} />
+        
+        <div className="HiScores">
           <HiScores refreshTrigger={refreshScores} users={users} />
-        </section>
-
+        </div>
+        
         <BackToTopButton />
       </div>
     </UserStylesContext.Provider>

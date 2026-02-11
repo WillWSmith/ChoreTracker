@@ -51,35 +51,30 @@ const WeeklyChores = ({ users }) => {
   };
 
   return (
-    <div className="module">
-      <div className="module-header">
-        <h2>Weekly Wins</h2>
-        <p className="module-description">Bigger tasks that make the difference</p>
-      </div>
-      <div className="table-scroller">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Completed By</th>
+    <div>
+      <h2>Weekly Chores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Completed By</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chores.map(chore => (
+            <tr key={chore.id}>
+              <td className="chore-name">{chore.name}</td>
+              <td
+                style={getStyleForUser(chore.completedBy)}
+                className="chore-cell"
+                onClick={() => updateChoreStatus(chore.id)}
+              >
+                <span className="cell-initial">{getUserInitial(chore.completedBy)}</span>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {chores.map(chore => (
-              <tr key={chore.id}>
-                <td className="chore-name">{chore.name}</td>
-                <td
-                  style={getStyleForUser(chore.completedBy)}
-                  className="chore-cell"
-                  onClick={() => updateChoreStatus(chore.id)}
-                >
-                  <span className="cell-initial">{getUserInitial(chore.completedBy)}</span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

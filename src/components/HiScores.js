@@ -3,7 +3,7 @@ import { db } from '../Firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import UserStylesContext from '../contexts/UserStylesContext';
 
-const HiScores = ({ refreshTrigger, users }) => {
+const HiScores = ({ refreshTrigger }) => {
   const [scores, setScores] = useState({});
   const userStyles = useContext(UserStylesContext);
 
@@ -22,32 +22,16 @@ const HiScores = ({ refreshTrigger, users }) => {
 
   return (
     <div className="scoreboard">
-      <div className="scoreboard-header">
-        <h2>High Scores</h2>
-      </div>
-      <div className="scoreboard-grid">
-        {Object.keys(scores).map(userName => {
-          const accentStyle = userStyles[userName] || {};
-          return (
-            <div className="score-card" key={userName}>
-              <div className="score-card-header" style={accentStyle}>
-                <span className="score-avatar">{userName.charAt(0)}</span>
-                <h3>{userName}</h3>
-              </div>
-              <div className="score-metrics">
-                <div className="metric">
-                  <span className="metric-label">Last Week</span>
-                  <span className="metric-value">{scores[userName].lastWeekScores}</span>
-                </div>
-                <div className="metric">
-                  <span className="metric-label">All Time</span>
-                  <span className="metric-value">{scores[userName].allTimeHighScores}</span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <h2>High Scores</h2>
+      {Object.keys(scores).map(userName => (
+        <div className="score" key={userName}>
+          <h3 style={userStyles[userName]}>{userName}</h3>
+          <div className="score-value">{scores[userName].lastWeekScores}</div>
+          <div className="score-indicator">Last Week</div>
+          <div className="score-value">{scores[userName].allTimeHighScores}</div>
+          <div className="score-indicator">All Time</div>
+        </div>
+      ))}
     </div>
   );
 };

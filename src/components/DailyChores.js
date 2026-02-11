@@ -50,44 +50,39 @@ const DailyChores = ({ users }) => {
   };
 
   return (
-    <div className="module">
-      <div className="module-header">
-        <h2>Daily Rituals</h2>
-        <p className="module-description">Track your daily victories across the week</p>
-      </div>
-      <div className="table-scroller">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              {daysOfWeek.map(day => (
-                <th key={day}>{day.slice(0, 3)}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {chores.map(chore => (
-              <tr key={chore.id}>
-                <td className="chore-name">{chore.name}</td>
-                {daysOfWeek.map(day => {
-                  const completedBy = chore.days[day]?.completedBy;
-                  const userInitial = users.includes(completedBy) ? completedBy.charAt(0) : '';
-                  return (
-                    <td 
-                      style={getStyleForUser(chore.days[day]?.completedBy)} 
-                      className="chore-cell"
-                      key={day}
-                      onClick={() => updateChoreStatus(chore.id, day)}
-                    >
-                      <span className="cell-initial">{userInitial}</span>
-                    </td>
-                  );
-                })}
-              </tr>
+    <div>
+      <h2>Daily Chores</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            {daysOfWeek.map(day => (
+              <th key={day}>{day}</th>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {chores.map(chore => (
+            <tr key={chore.id}>
+              <td className="chore-name">{chore.name}</td>
+              {daysOfWeek.map(day => {
+                const completedBy = chore.days[day]?.completedBy;
+                const userInitial = users.includes(completedBy) ? completedBy.charAt(0) : '';
+                return (
+                  <td 
+                    style={getStyleForUser(chore.days[day]?.completedBy)} 
+                    className="chore-cell"
+                    key={day}
+                    onClick={() => updateChoreStatus(chore.id, day)}
+                  >
+                    <span className="cell-initial">{userInitial}</span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
