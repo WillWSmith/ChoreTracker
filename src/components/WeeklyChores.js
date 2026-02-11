@@ -23,6 +23,8 @@ const WeeklyChores = ({ users }) => {
 
   const updateChoreStatus = async (choreId) => {
     const chore = chores.find(c => c.id === choreId);
+    if (!chore) return;
+    
     const currentStatus = chore.completedBy || 'null';
     const currentUserIndex = currentStatus === 'null' ? -1 : users.indexOf(currentStatus);
     const nextUserIndex = (currentUserIndex + 1) % (users.length + 1);
@@ -43,12 +45,16 @@ const WeeklyChores = ({ users }) => {
   };
 
   const getStyleForUser = (userName) => {
-    return userName ? userStyles[userName] || {} : {};
+    return userName && userName !== 'null' ? userStyles[userName] || {} : {};
   };
 
   const getUserInitial = (userName) => {
     return userName && userName !== 'null' ? userName.charAt(0) : '';
   };
+
+  if (!users || users.length === 0) {
+    return <div><h2>Weekly Chores</h2><p>Loading...</p></div>;
+  }
 
   return (
     <div>
