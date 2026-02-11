@@ -95,18 +95,18 @@ body {
 
 .App-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
   background-color: var(--container-bg);
   border-bottom: 2px solid var(--accent-color);
   padding: 1rem 2rem;
   box-shadow: var(--container-shadow);
+  position: relative;
 }
 
 h1 {
   text-align: center;
-  flex-grow: 1;
   font-family: 'Orbitron', sans-serif;
   color: var(--accent-color);
   margin: 0;
@@ -128,45 +128,41 @@ h1 {
   background-clip: text;
 }
 
-.theme-controls {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
 .theme-toggle-btn {
+  position: absolute;
+  right: 20px;
   cursor: pointer;
-  background-color: var(--container-bg);
+  background-color: transparent;
   border: 2px solid var(--accent-color);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
-  color: var(--text-color);
-  font-weight: 600;
-  font-size: 0.9rem;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent-color);
+  font-weight: 700;
+  font-size: 1.5rem;
+  font-family: 'Orbitron', sans-serif;
   transition: all 0.3s ease;
 }
 
 .theme-toggle-btn:hover {
-  border-color: var(--accent-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 0 20px var(--accent-color);
 }
 
-.theme-toggle-btn.active {
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color) 100%);
-  color: var(--background-color);
-  font-weight: 700;
-}
-
-[data-theme='will'] .theme-toggle-btn.active {
+[data-theme='will'] .theme-toggle-btn {
   background: linear-gradient(135deg, var(--will-accent) 0%, #00cc6f 100%);
   color: #0a0f0d;
-  box-shadow: 0 0 20px var(--will-accent-glow);
+  border-color: var(--will-accent);
+  box-shadow: 0 0 15px var(--will-accent-glow);
 }
 
-[data-theme='kristyn'] .theme-toggle-btn.active {
+[data-theme='kristyn'] .theme-toggle-btn {
   background: linear-gradient(135deg, var(--kristyn-accent) 0%, var(--kristyn-rose-gold) 100%);
   color: white;
+  border-color: var(--kristyn-accent);
 }
 
 /* Style the div containers for chore components */
@@ -333,14 +329,15 @@ p, li, a, span {
   cursor: default;
 }
 
-/* ScoreBoard Style */
+/* ScoreBoard Style - Compact like live version */
 .scoreboard {
   background-color: var(--scoreboard-bg);
   color: var(--scoreboard-text);
   box-shadow: var(--container-shadow);
   border-radius: 12px;
   padding: 20px;
-  margin: 20px;
+  margin: 20px auto;
+  max-width: 600px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -360,22 +357,21 @@ p, li, a, span {
 
 .scoreboard .score h3 {
   color: var(--scoreboard-text);
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 .scoreboard .score .score-indicator {
   color: var(--scoreboard-text);
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0.25rem 0;
+  font-size: 0.75rem;
+  margin: 0;
 }
 
 .scoreboard .score .score-value {
   font-size: 2.5rem;
   font-family: 'Orbitron', sans-serif;
-  color: var(--accent-color);
+  color: var(--text-color);
   margin: 0;
   font-weight: 700;
 }
@@ -383,19 +379,18 @@ p, li, a, span {
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
   .App-header {
-    flex-direction: column;
     padding: 1rem;
-    gap: 1rem;
   }
   
   h1 {
     font-size: 1.5rem;
-    padding: 0;
   }
 
-  .theme-controls {
-    width: 100%;
-    justify-content: center;
+  .theme-toggle-btn {
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
   }
 
   .scoreboard {
@@ -408,8 +403,7 @@ p, li, a, span {
     margin-bottom: 20px;
   }
 
-  .scoreboard .score .score-value,
-  .scoreboard .score .score-indicator {
+  .scoreboard .score .score-value {
     font-size: 2rem;
   }
 

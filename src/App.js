@@ -25,10 +25,11 @@ function App() {
 
   const [refreshScores, setRefreshScores] = useState(false);
 
-  const toggleTheme = (theme) => {
-    setCurrentTheme(theme);
-    localStorage.setItem('userTheme', theme);
-    document.body.setAttribute('data-theme', theme);
+  const toggleTheme = () => {
+    const newTheme = currentTheme === 'will' ? 'kristyn' : 'will';
+    setCurrentTheme(newTheme);
+    localStorage.setItem('userTheme', newTheme);
+    document.body.setAttribute('data-theme', newTheme);
   };
 
   React.useEffect(() => {
@@ -102,20 +103,9 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1>Chore Tracker</h1>
-          <div className="theme-controls">
-            <button 
-              className={`theme-toggle-btn ${currentTheme === 'will' ? 'active' : ''}`}
-              onClick={() => toggleTheme('will')}
-            >
-              Will's View
-            </button>
-            <button 
-              className={`theme-toggle-btn ${currentTheme === 'kristyn' ? 'active' : ''}`}
-              onClick={() => toggleTheme('kristyn')}
-            >
-              Kristyn's View
-            </button>
-          </div>
+          <button className="theme-toggle-btn" onClick={toggleTheme}>
+            {currentTheme === 'will' ? 'W' : 'K'}
+          </button>
         </header>
         
         <div className="DailyChores">
